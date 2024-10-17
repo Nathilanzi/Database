@@ -1,160 +1,87 @@
-import { useState, useEffect } from "react";
-import { db, storage } from "../../Firebase"; // Ensure the path is correct
-import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes } from "firebase/storage";
+// src/components/Home.jsx
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    surname: "",
-    phoneNumber: "",
-    email: "",
-    physicalAddress: "",
-    communityChief: "",
-    cvLink: "",
-    cvFile: null,
-  });
-
-  useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("userData"));
-    if (savedData) setFormData(savedData);
-  }, []);
-
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleFileChange = (e) =>
-    setFormData({ ...formData, cvFile: e.target.files[0] });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    let cvLink = "";
-    if (formData.cvFile) {
-      const storageRef = ref(storage, `cvs/${formData.cvFile.name}`);
-      await uploadBytes(storageRef, formData.cvFile);
-      cvLink = `cvs/${formData.cvFile.name}`;
-    }
-
-    try {
-      await addDoc(collection(db, "users"), {
-        name: formData.name,
-        surname: formData.surname,
-        phoneNumber: formData.phoneNumber,
-        email: formData.email,
-        physicalAddress: formData.physicalAddress,
-        communityChief: formData.communityChief,
-        cvLink,
-      });
-      alert("Data saved successfully!");
-
-      setFormData({
-        name: "",
-        surname: "",
-        phoneNumber: "",
-        email: "",
-        physicalAddress: "",
-        communityChief: "",
-        cvLink: "",
-        cvFile: null,
-      });
-    } catch (error) {
-      console.error("Error saving data: ", error);
-    }
-  };
-
   return (
-    <div className="flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
-          Registration Form
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Name"
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              name="surname"
-              value={formData.surname}
-              onChange={handleChange}
-              placeholder="Surname"
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <input
-              type="tel"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              placeholder="Phone Number"
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email Address"
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              name="physicalAddress"
-              value={formData.physicalAddress}
-              onChange={handleChange}
-              placeholder="Physical Address"
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              name="communityChief"
-              value={formData.communityChief}
-              onChange={handleChange}
-              placeholder="Community Chief"
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Upload CV
-            </label>
-            <input
-              type="file"
-              onChange={handleFileChange}
-              accept=".pdf,.doc,.docx"
-              className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300"
-          >
-            Submit
-          </button>
-        </form>
-      </div>
+    <div className="bg-gray-50 p-6">
+      <header className="text-center bg-blue-600 text-white py-20">
+        <h1 className="text-4xl font-bold mb-4">Empowering Youth. Connecting Communities. Supporting Stakeholders.</h1>
+        <p className="text-lg mb-8">
+          A platform for youth to showcase their skills, stakeholders to engage with verified talent, and community leaders to manage impactful initiatives.
+        </p>
+        <div className="flex justify-center space-x-4">
+          <Link to="/youthupload" className="bg-white text-blue-600 py-2 px-4 rounded shadow hover:bg-blue-200 transition">Upload Your CV</Link>
+          <Link to="/login" className="bg-white text-blue-600 py-2 px-4 rounded shadow hover:bg-blue-200 transition">Stakeholder Login</Link>
+          <Link to="/contact" className="bg-white text-blue-600 py-2 px-4 rounded shadow hover:bg-blue-200 transition">Contact Us</Link>
+        </div>
+      </header>
+
+      <section className="mt-12 mb-8">
+        <h2 className="text-3xl font-semibold text-center mb-4">Our Mission: Building Opportunities and Fostering Growth</h2>
+        <p className="text-center mb-4">
+          Our community-driven database is designed to help:
+        </p>
+        <ul className="list-disc list-inside max-w-xl mx-auto mb-4">
+          <li><strong>Youth:</strong> showcase their talent and skills for employment or project participation.</li>
+          <li><strong>Stakeholders:</strong> connect with verified talent and businesses within the community.</li>
+          <li><strong>Existing Partners:</strong> access real-time data and insights to improve outreach and operations.</li>
+        </ul>
+        <p className="text-center">
+          Whether you are an aspiring youth or a community stakeholder, this platform bridges the gap between opportunity and resources.
+        </p>
+      </section>
+
+      <section className="mt-12 mb-8">
+        <h2 className="text-3xl font-semibold text-center mb-4">How It Works for Youth</h2>
+        <ol className="list-decimal list-inside max-w-xl mx-auto mb-4">
+          <li>Click on the Youth Upload button in the header or below </li>
+          <li>Complete Your Profile: Add your name, skills, and community chief's reference.</li>
+          <li>Upload Your CV: Ensure your CV is in PDF format.</li>
+          <li>Stay Updated: Stakeholders can reach out if your profile matches a project or job.</li>
+        </ol>
+        <div className="text-center">
+          <Link to="/youthupload" className="bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-500 transition">Upload Now</Link>
+        </div>
+      </section>
+
+      <section className="mt-12 mb-8">
+        <h2 className="text-3xl font-semibold text-center mb-4">Information for Stakeholders</h2>
+        <p className="text-center mb-4">
+          If you are new to our platform, contact us to gain access to:
+        </p>
+        <ul className="list-disc list-inside max-w-xl mx-auto mb-4">
+          <li>Verified profiles of youth and businesses within the community.</li>
+          <li>Community-based data to support employment, training, or outreach projects.</li>
+        </ul>
+        <h3 className="text-xl font-semibold text-center mb-2">How to Get In Touch:</h3>
+        <p className="text-center mb-1">Email: info@communitydatabase.org</p>
+        <p className="text-center mb-1">Phone: +27 12 345 6789</p>
+        <p className="text-center mb-4">Address: Community Hub, Pretoria, Gauteng</p>
+        <div className="text-center">
+          <Link to="/contact" className="bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-500 transition">Contact Us</Link>
+        </div>
+      </section>
+
+      <section className="mt-12 mb-8">
+        <h2 className="text-3xl font-semibold text-center mb-4">Login Instructions for Existing Stakeholders</h2>
+        <p className="text-center mb-4">
+          Follow these steps to log in:
+        </p>
+        <ol className="list-decimal list-inside max-w-xl mx-auto mb-4">
+          <li>Click the "Login" button on the top right.</li>
+          <li>Enter your credentials provided during onboarding.</li>
+          <li>Navigate to the Dashboard to view youth profiles, download CVs, and manage data.</li>
+        </ol>
+        <div className="text-center">
+          <Link to="/login" className="bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-500 transition">Login</Link>
+        </div>
+      </section>
+
+      <footer className="text-center py-6 mt-12 bg-gray-200">
+        <p>© 2024 Community Database | All Rights Reserved</p>
+        <p><Link to="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link> | <Link to="/terms" className="text-blue-600 hover:underline">Terms of Service</Link></p>
+      </footer>
     </div>
   );
 };
