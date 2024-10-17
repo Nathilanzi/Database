@@ -37,17 +37,18 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/about"
+              to="/youthupload" 
               className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
-            >
-              About
-            </Link>
+              >
+                Youth Upload
+              </Link>
+
             <Link
-              to="/services"
+              to="/dashboard" 
               className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
-            >
-              Services
-            </Link>
+              >
+                Dashboard
+              </Link>
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -57,6 +58,7 @@ const Navbar = () => {
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                  
                   <Link
                     to="/login"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -99,17 +101,17 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/about"
-              className="block py-2 text-gray-700 hover:text-blue-600"
-            >
-              About
-            </Link>
-            <Link
-              to="/services"
-              className="block py-2 text-gray-700 hover:text-blue-600"
-            >
-              Services
-            </Link>
+              to="/dashboard" 
+              className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
+              >
+                <Link
+              to="/youthupload" 
+              className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
+              >
+                Youth Upload
+              </Link>
+                Dashboard
+              </Link>
             <Link
               to="/login"
               className="block py-2 text-gray-700 hover:text-blue-600"
