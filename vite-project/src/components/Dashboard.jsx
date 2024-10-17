@@ -1,47 +1,61 @@
 // src/components/Dashboard.js
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { getDocs, collection, getFirestore } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-import { Firestore } from 'firebase/firestore'; // Import Firestore instance
 import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth'; // Import Firebase Auth
 
 const Dashboard = () => {
   const [youthData, setYouthData] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const db = getFirestore();
   const storage = getStorage();
+  const auth = getAuth();
 
-  // Fetch all data from Firestore
+  // Check if user is authenticated before fetching data
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(Firestore, 'youthProfiles'));
-        const dataPromises = querySnapshot.docs.map(async (doc) => {
-          const profile = doc.data();
-          
-          // Generate a download URL for the CV from Firebase Storage
-          const cvUrl = profile.cvFileName 
-            ? await getDownloadURL(ref(storage, `cvs/${profile.cvFileName}`))
-            : null;
-          
-          return { ...profile, cvUrl };
-        });
-
-        const data = await Promise.all(dataPromises);
-        setYouthData(data);
-      } catch (error) {
-        console.error('Error fetching youth data:', error);
-      } finally {
-        setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        console.warn('User is not logged in. Redirecting to login.');
+        navigate('/login'); // Redirect to login if user is not authenticated
+      } else {
+        fetchData(); // Fetch data if user is logged in
       }
-    };
+    });
 
-    fetchData();
-  }, []);
+    // Cleanup subscription to avoid memory leaks
+    return () => unsubscribe();
+  }, [auth, navigate]);
+
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'users'));
+
+      if (querySnapshot.empty) {
+        console.warn('No documents found in the collection.');
+      }
+
+      const dataPromises = querySnapshot.docs.map(async (doc) => {
+        const profile = doc.data();
+        const cvUrl = profile.cvFileName
+          ? await getDownloadURL(ref(storage, `cvs/${profile.cvFileName}`))
+          : null;
+
+        return { ...profile, cvUrl };
+      });
+
+      const data = await Promise.all(dataPromises);
+      setYouthData(data);
+    } catch (error) {
+      console.error('Error fetching youth data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = () => {
-    // Logout logic here
-    navigate('/');
+    auth.signOut().then(() => navigate('/')); // Log out and redirect to home
   };
 
   if (loading) return <p>Loading data...</p>;
