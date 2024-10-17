@@ -5,6 +5,18 @@ import { Menu, X, ChevronDown } from "lucide-react";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  // Close dropdown when clicking outside:
+
+  useEffect (() => {
+    const handleClickOutside = (event) => {
+      if (isDropdownOpen && !event.target.closest(".account-toggle")) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [isDropdownOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
