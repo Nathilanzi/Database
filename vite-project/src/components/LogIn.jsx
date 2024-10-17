@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "../../Firebase";
+import { app } from '../../Firebase';
+import { useNavigate } from 'react-router-dom';
 
 const auth = getAuth(app);
 
 const LogIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); // React Router hook for navigation
 
   const handleLogIn = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Redirect to Home
+      navigate('/dashboard'); // Redirect to Dashboard after successful login
     } catch (error) {
+      setError('Invalid email or password. Please try again.');
       console.error("Error logging in:", error);
     }
   };
