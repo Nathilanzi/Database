@@ -55,9 +55,9 @@ const Home = () => {
           <li>Community-based data to support employment, training, or outreach projects.</li>
         </ul>
         <h3 className="text-xl font-semibold text-center mb-2">How to Get In Touch:</h3>
-        <p className="text-center mb-1">Email: info@communitydatabase.org</p>
-        <p className="text-center mb-1">Phone: +27 12 345 6789</p>
-        <p className="text-center mb-4">Address: Community Hub, Pretoria, Gauteng</p>
+        <p className="text-center mb-1">Email: nathilanziv@gmail.com</p>
+        <p className="text-center mb-1">Phone: +27 63 687 3558</p>
+        <p className="text-center mb-4">Address: Phokeng, North West</p>
         <div className="text-center">
           <Link to="/contact" className="bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-500 transition">Contact Us</Link>
         </div>
