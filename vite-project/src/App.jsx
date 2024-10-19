@@ -12,17 +12,16 @@ import Home from './components/Home';
 const App = () => {
   return (
     <Router>
-      <AuthChecker>
+     
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path='/youthupload' element={<YouthUpload />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={ <AuthChecker> <Dashboard /> </AuthChecker>} />
           </Routes>
         </Layout>
-      </AuthChecker>
     </Router>
   );
 };
