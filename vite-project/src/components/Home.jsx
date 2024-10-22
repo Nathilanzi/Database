@@ -66,10 +66,16 @@ const Home = () => {
           <li>Verified profiles of youth and businesses within the community.</li>
           <li>Community-based data to support employment, training, or outreach projects.</li>
         </ul>
+
         <h3 className="text-xl font-semibold text-center mb-2 text-[#2A2A5A]">How to Get In Touch:</h3>
         <p className="text-center mb-1 text-[#2A2A5A]">Email: info@communitydatabase.org</p>
         <p className="text-center mb-1 text-[#2A2A5A]">Phone: +27 12 345 6789</p>
         <p className="text-center mb-4 text-[#2A2A5A]">Address: Community Hub, Pretoria, Gauteng</p>
+        <h3 className="text-xl font-semibold text-center mb-2">How to Get In Touch:</h3>
+        <p className="text-center mb-1">Email: nathilanziv@gmail.com</p>
+        <p className="text-center mb-1">Phone: +27 63 687 3558</p>
+        <p className="text-center mb-4">Address: Phokeng, North West</p>
+
         <div className="text-center">
           <Link to="/contact" className="bg-[#187ABF] text-white py-2 px-4 rounded shadow hover:bg-[#9CCEDD] transition">
             Contact Us
