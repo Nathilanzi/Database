@@ -5,6 +5,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -20,20 +21,25 @@ const Navbar = () => {
   // Change Navbar style on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const navbar = document.querySelector(".navbar");
       if (window.scrollY > 50) {
-        navbar.classList.add("bg-white", "shadow-lg");
+        setIsScrolled(true);
       } else {
-        navbar.classList.remove("bg-white", "shadow-lg");
+        setIsScrolled(false);
       }
     };
 
-    document.addEventListener("scroll", handleScroll);
-    return () => document.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <nav className="navbar bg-gradient-to-r from-[#518035] via-[#9CCEDD] to-[#F5EEC2] sticky top-0 p-4 transition-all duration-300">
+    <nav
+      className={`navbar fixed top-0 left-0 right-0 z-50 p-4 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/30 backdrop-blur-lg shadow-lg"
+          : "bg-gradient-to-r from-[#518035] via-[#9CCEDD] to-[#F5EEC2]"
+      }`}
+    >
       <div className="container mx-auto">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold text-[#2A2A5A]">
