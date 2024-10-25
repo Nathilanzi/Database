@@ -67,10 +67,6 @@ const Home = () => {
           <li>Community-based data to support employment, training, or outreach projects.</li>
         </ul>
 
-        <h3 className="text-xl font-semibold text-center mb-2 text-[#2A2A5A]">How to Get In Touch:</h3>
-        <p className="text-center mb-1 text-[#2A2A5A]">Email: info@communitydatabase.org</p>
-        <p className="text-center mb-1 text-[#2A2A5A]">Phone: +27 12 345 6789</p>
-        <p className="text-center mb-4 text-[#2A2A5A]">Address: Community Hub, Pretoria, Gauteng</p>
         <h3 className="text-xl font-semibold text-center mb-2">How to Get In Touch:</h3>
         <p className="text-center mb-1">Email: nathilanziv@gmail.com</p>
         <p className="text-center mb-1">Phone: +27 63 687 3558</p>
@@ -101,7 +97,7 @@ const Home = () => {
       </section>
 
       <footer className="text-center py-6 mt-12 bg-[#518035] text-white">
-        <p>© 2024 Community Database | All Rights Reserved</p>
+        <p>© 2024 Community Database OUTSOURCING ORGANIC SOLUTIONS | All Rights Reserved</p>
         <p>
           <Link to="/privacy" className="hover:underline">Privacy Policy</Link> |{' '}
           <Link to="/terms" className="hover:underline">Terms of Service</Link>
