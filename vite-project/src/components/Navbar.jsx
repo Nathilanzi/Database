@@ -32,7 +32,7 @@ const Navbar = () => {
       <div className="container mx-auto">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold text-[#2A2A5A]">
-            Logo
+            OOS
           </Link>
 
           {/* Desktop Menu */}
