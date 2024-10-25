@@ -74,12 +74,12 @@ const Navbar = () => {
                 >
                   Log In
                 </Link>
-                <Link
+                {/* <Link
                   to="/signup"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Sign Up
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
@@ -130,13 +130,13 @@ const Navbar = () => {
               <User className="h-6 w-6 mb-1" />
               Log In
             </Link>
-            <Link
+            {/* <Link
               to="/signup"
               className=" py-2 text-white flex flex-col items-center hover:text-[#187ABF] transition-colors duration-300"
             >
               <User className="h-6 w-6 mb-1" />
               Sign Up
-            </Link>
+            </Link> */}
           </div>
         )}
       </div>
