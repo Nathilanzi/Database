@@ -61,7 +61,7 @@ const Dashboard = () => {
   if (loading) return <p>Loading data...</p>;
 
   return (
-    <div>
+    <div className="mt-20">
       <h1>Admin Dashboard</h1>
       <button onClick={handleLogout}>Log Out</button>
 
