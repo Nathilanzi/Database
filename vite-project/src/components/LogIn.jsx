@@ -1,44 +1,42 @@
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from '../../Firebase';
 import { useNavigate } from 'react-router-dom';
-
-const auth = getAuth(app);
+import { Eye, EyeOff } from 'lucide-react';
 
 const LogIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // React Router hook for navigation
+  const navigate = useNavigate();
 
-    // Function to toggle password visibility
-    const togglePasswordVisibility = () => {
-      setPasswordVisible(!passwordVisible);
-    };
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const handleLogIn = async (e) => {
     e.preventDefault();
     try {
+      const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/dashboard'); // Redirect to Dashboard after successful login
+      navigate('/dashboard');
     } catch (error) {
       setError('Invalid email or password. Please try again.');
       console.error("Error logging in:", error);
     }
   };
 
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-600 to-green-900">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96 relative">
-        <div className="absolute top-[-50px] left-1/2 transform -translate-x-1/2 bg-green-700 w-24 h-24 rounded-full flex items-center justify-center shadow-lg">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br ">
+      <div className="bg-white p-8 rounded-lg shadow-xl w-96 relative">
+        {/* Icon Circle */}
+        <div className="absolute top-[-50px] left-1/2 transform -translate-x-1/2 bg-[#2F855A] w-24 h-24 rounded-full flex items-center justify-center shadow-lg">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="w-12 h-12 text-white"
+            stroke="#FFFFFF"
+            className="w-12 h-12"
           >
             <path
               strokeLinecap="round"
@@ -48,15 +46,23 @@ const LogIn = () => {
             />
           </svg>
         </div>
-        <h2 className="text-2xl font-semibold text-center mb-6 text-gray-700 mt-16">
+        
+        {/* Header */}
+        <h2 className="text-2xl font-semibold text-center mb-6 text-[#4A5568] mt-16">
           Login
         </h2>
+        
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 text-[#E53E3E] rounded-md text-sm border border-red-200">
+            {error}
+          </div>
+        )}
+        
         <form onSubmit={handleLogIn} className="space-y-4">
+          {/* Email Field */}
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-600"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-[#4A5568]">
               Email ID
             </label>
             <input
@@ -66,50 +72,58 @@ const LogIn = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
-                         focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 text-sm"
+              className="mt-1 block w-full px-4 py-2 border border-[#A0AEC0] rounded-md shadow-sm 
+                       placeholder-[#A0AEC0] text-[#4A5568]
+                       focus:outline-none focus:border-[#38A169] focus:ring-1 focus:ring-[#38A169] text-sm"
             />
           </div>
+          
+          {/* Password Field */}
           <div>
-      <label
-        htmlFor="password"
-        className="block text-sm font-medium text-gray-600"
-      >
-        Password
-      </label>
-      <div className="relative">
-        <input
-          id="password"
-          type={passwordVisible ? 'text' : 'password'} // Toggle between 'text' and 'password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
-          required
-          className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
-                     focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 text-sm"
-        />
-        {/* Button to toggle visibility */}
-        <button
-          type="button"
-          onClick={togglePasswordVisibility}
-          className="absolute inset-y-0 right-0 px-3 text-gray-600 focus:outline-none"
-        >
-          {passwordVisible ? 'Hide' : 'Show'}
-        </button>
-      </div>
-    </div>
+            <label htmlFor="password" className="block text-sm font-medium text-[#4A5568]">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                type={passwordVisible ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+                className="mt-1 block w-full px-4 py-2 border border-[#A0AEC0] rounded-md shadow-sm 
+                         placeholder-[#A0AEC0] text-[#4A5568]
+                         focus:outline-none focus:border-[#38A169] focus:ring-1 focus:ring-[#38A169] text-sm"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute inset-y-0 right-0 px-3 text-[#A0AEC0] hover:text-[#4A5568] focus:outline-none"
+              >
+                {passwordVisible ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
+          
+          {/* Remember Me & Forgot Password */}
           <div className="flex justify-between items-center text-sm">
             <label className="flex items-center">
-              <input type="checkbox" className="form-checkbox h-4 w-4 text-green-600" />
-              <span className="ml-2 text-gray-600">Remember me</span>
+              <input 
+                type="checkbox" 
+                className="form-checkbox h-4 w-4 text-[#38A169] border-[#A0AEC0]" 
+              />
+              <span className="ml-2 text-[#4A5568]">Remember me</span>
             </label>
-            <a href="#" className="text-gray-500 hover:text-green-600">
+            <a href="#" className="text-[#4A5568] hover:text-[#38A169] transition-colors duration-200">
               Forgot Password?
             </a>
           </div>
+          
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-2 mt-4 bg-green-700 text-white rounded-md shadow-sm hover:bg-green-800 transition duration-150 ease-in-out"
+            className="w-full py-2.5 mt-6 bg-[#38A169] text-white rounded-md shadow-md 
+                     hover:bg-[#2F855A] transition duration-200 ease-in-out font-medium"
           >
             Log In
           </button>
