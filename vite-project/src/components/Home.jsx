@@ -1,59 +1,83 @@
-// src/components/Home.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Footer from './Footer';
+import MissionCard from './MissionCard';
 
 const Home = () => {
+  const missionCards = [
+    {
+      title: "Youth",
+      description: "Showcase your talent and skills for employment or project participation.",
+      icon: "👥"
+    },
+    {
+      title: "Stakeholders",
+      description: "Connect with verified talent and businesses within the community.",
+      icon: "🤝"
+    },
+    {
+      title: "Existing Partners",
+      description: "Access real-time data and insights to improve outreach and operations.",
+      icon: "📊"
+    }
+  ];
+
   return (
-    <div className="bg-[#F5EEC2] p-6">
+    <div className="bg-[#f9f6f2] p-6 mt-20">
       {/* Header Section */}
-      <header className="text-center py-20" style={{ backgroundColor: '#285B23', color: '#F2CFF1' }}>
-        <h1 className="text-4xl font-bold mb-4">
+      <header className="text-center py-20 bg-[#f9f6f2]">
+        <h1 className="text-4xl font-bold mb-4 text-[#683800]">
           Empowering Youth. Connecting Communities. Supporting Stakeholders.
         </h1>
-        <p className="text-lg mb-8">
-          A platform for youth to showcase their skills, stakeholders to engage with verified talent, and community leaders to manage impactful initiatives.
+        <p className="text-lg mb-8 text-[#683800]">
+          A platform for youth to showcase their skills, stakeholders to engage with verified talent, 
+          and community leaders to manage impactful initiatives.
         </p>
         <div className="flex justify-center space-x-4">
-          <Link to="/youthupload" className="bg-[#F5EEC2] text-[#285B23] py-2 px-4 rounded shadow hover:bg-[#F2CFF1] hover:text-white transition">
+          <Link 
+            to="/youthupload" 
+            className="bg-[#456703] text-white py-2 px-6 rounded-lg shadow hover:bg-[#557714] transition duration-300 ease-in-out"
+          >
             Upload Your CV
           </Link>
-          <Link to="/login" className="bg-[#F5EEC2] text-[#285B23] py-2 px-4 rounded shadow hover:bg-[#F2CFF1] hover:text-white transition">
+          <Link 
+            to="/login" 
+            className="bg-[#456703] text-white py-2 px-6 rounded-lg shadow hover:bg-[#557714] transition duration-300 ease-in-out"
+          >
             Stakeholder Login
           </Link>
-          <Link to="/contact" className="bg-[#F5EEC2] text-[#285B23] py-2 px-4 rounded shadow hover:bg-[#F2CFF1] hover:text-white transition">
+          <Link 
+            to="/contact" 
+            className="bg-[#456703] text-white py-2 px-6 rounded-lg shadow hover:bg-[#557714] transition duration-300 ease-in-out"
+          >
             Contact Us
           </Link>
         </div>
       </header>
 
-      {/* Main Section */}
-      <section className="mt-12 mb-8">
-        <h2 className="text-3xl font-semibold text-center mb-4" style={{ color: '#285B23' }}>
+      {/* Mission Section */}
+      <section className="mt-16 mb-12">
+        <h2 className="text-3xl font-semibold text-center mb-8 text-[#683800]">
           Our Mission: Building Opportunities and Fostering Growth
         </h2>
-        <p className="text-center mb-4" style={{ color: '#285B23' }}>
-          Our community-driven database is designed to help:
+        <p className="text-center mb-12 text-[#683800] max-w-2xl mx-auto">
+          Whether you are an aspiring youth or a community stakeholder, 
+          this platform bridges the gap between opportunity and resources.
         </p>
-        <ul className="list-disc list-inside max-w-xl mx-auto mb-4" style={{ color: '#285B23' }}>
-          <li><strong>Youth:</strong> showcase their talent and skills for employment or project participation.</li>
-          <li><strong>Stakeholders:</strong> connect with verified talent and businesses within the community.</li>
-          <li><strong>Existing Partners:</strong> access real-time data and insights to improve outreach and operations.</li>
-        </ul>
-        <p className="text-center" style={{ color: '#285B23' }}>
-          Whether you are an aspiring youth or a community stakeholder, this platform bridges the gap between opportunity and resources.
-        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
+          {missionCards.map((card, index) => (
+            <MissionCard
+              key={index}
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+            />
+          ))}
+        </div>
       </section>
 
-      {/* Other sections omitted for brevity... */}
-
-      {/* Footer Section */}
-      <footer className="text-center py-6 mt-12" style={{ backgroundColor: '#285B23', color: '#F2CFF1' }}>
-        <p>© 2024 Community Database | All Rights Reserved</p>
-        <p>
-          <Link to="/privacy" className="hover:underline">Privacy Policy</Link> |{' '}
-          <Link to="/terms" className="hover:underline">Terms of Service</Link>
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 };
