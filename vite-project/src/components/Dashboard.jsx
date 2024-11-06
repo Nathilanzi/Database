@@ -29,7 +29,7 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, 'users', ));
+      const querySnapshot = await getDocs(collection(db, 'users' ));
 
       if (querySnapshot.empty) {
         console.warn('No documents found in the collection.');

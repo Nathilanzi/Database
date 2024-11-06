@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { db, storage } from "../../Firebase";
+import { db, storage } from "../../Firebase"; // Ensure the path is correct
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from 'react-router-dom';
-import { Alert} from "./UI/Alert"
-import {AlertDescription} from "./UI/AlertDescription"
-import {AlertDialog} from "./UI/AlertDialog"
-import {AlertDialogAction} from "./UI/AlertDialogAction"
-import {AlertTitle} from "./UI/AlertTitle"
+import { Alert } from "./UI/Alert";
+import { AlertDescription } from "./UI/AlertDescription";
+import { AlertDialog } from "./UI/AlertDialog";
+import { AlertDialogAction } from "./UI/AlertDialogAction";
+import { AlertTitle } from "./UI/AlertTitle";
 
 const YouthUpload = () => {
   const [formData, setFormData] = useState({
@@ -19,8 +19,7 @@ const YouthUpload = () => {
     communityChief: "",
     education: "",
     employmentStatus: "",
-    cvLink: "",
-    cvFile: null,
+    cvFile: null, // Store file object here
   });
 
   const [skills, setSkills] = useState([]);
@@ -52,23 +51,34 @@ const YouthUpload = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     let cvLink = "";
+
+    // Handle file upload if a CV is provided
     if (formData.cvFile) {
       const storageRef = ref(storage, `cvs/${formData.cvFile.name}`);
+      console.log("Uploading CV to Firebase Storage...");
       await uploadBytes(storageRef, formData.cvFile);
       cvLink = `cvs/${formData.cvFile.name}`;
+      console.log("CV uploaded successfully. File URL:", cvLink);
     }
 
     try {
-
+      console.log("Adding data to Firestore...");
       setShowSuccessPopup(true);
       await addDoc(collection(db, "users"), {
-        ...formData,
+        name: formData.name,
+        surname: formData.surname,
+        phoneNumber: formData.phoneNumber,
+        email: formData.email,
+        physicalAddress: formData.physicalAddress,
+        communityChief: formData.communityChief,
+        education: formData.education,
+        employmentStatus: formData.employmentStatus,
         skills,
-        cvLink,
+        cvLink, // Store the file URL here
       });
 
+      // Reset the form data
       setFormData({
         name: "",
         surname: "",
@@ -78,15 +88,12 @@ const YouthUpload = () => {
         communityChief: "",
         education: "",
         employmentStatus: "",
-        cvLink: "",
         cvFile: null,
       });
       setSkills([]);
-
-      // Optionally, navigate to another page after a delay
-    setTimeout(() => {
-      navigate('/');
-    }, 2000); // 2 seconds delay before navigating
+      setTimeout(() => {
+        navigate('/');
+      }, 2000); // 2 seconds delay before navigating
     } catch (error) {
       console.error("Error saving data: ", error);
     }
@@ -106,7 +113,7 @@ const YouthUpload = () => {
         </p>
         
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
+        <div>
             <label className={labelClasses}>Name <span className="text-[#fbab01]">*</span></label>
             <input
               type="text"
@@ -243,7 +250,7 @@ const YouthUpload = () => {
               ))}
             </div>
           </div>
-
+          
           <div>
             <label className={labelClasses}>Upload CV <span className="text-[#fbab01]">*</span></label>
             <input
