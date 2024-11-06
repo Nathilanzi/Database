@@ -116,13 +116,7 @@ const Home = () => {
         </div>
       </section>
 
-      <footer className="text-center py-6 mt-12 bg-[#518035] text-white">
-        <p>© 2024 Community Database OUTSOURCING ORGANIC SOLUTIONS | All Rights Reserved</p>
-        <p>
-          <Link to="/privacy" className="hover:underline">Privacy Policy</Link> |{' '}
-          <Link to="/terms" className="hover:underline">Terms of Service</Link>
-        </p>
-      </footer>
+      < Footer />
     </div>
   );
 };
