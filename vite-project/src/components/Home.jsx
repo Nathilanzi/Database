@@ -77,7 +77,52 @@ const Home = () => {
         </div>
       </section>
 
-      <Footer />
+      <section className="mt-12 mb-8">
+        <h2 className="text-3xl font-semibold text-center mb-4 text-[#2A2A5A]">Information for Stakeholders</h2>
+        <p className="text-center mb-4 text-[#2A2A5A]">
+          If you are new to our platform, contact us to gain access to:
+        </p>
+        <ul className="list-disc list-inside max-w-xl mx-auto mb-4 text-[#2A2A5A]">
+          <li>Verified profiles of youth and businesses within the community.</li>
+          <li>Community-based data to support employment, training, or outreach projects.</li>
+        </ul>
+
+        <h3 className="text-xl font-semibold text-center mb-2">How to Get In Touch:</h3>
+        <p className="text-center mb-1">Email: nathilanziv@gmail.com</p>
+        <p className="text-center mb-1">Phone: +27 63 687 3558</p>
+        <p className="text-center mb-4">Address: Phokeng, North West</p>
+
+        <div className="text-center">
+          <Link to="/contact" className="bg-[#187ABF] text-white py-2 px-4 rounded shadow hover:bg-[#9CCEDD] transition">
+            Contact Us
+          </Link>
+        </div>
+      </section>
+
+      <section className="mt-12 mb-8">
+        <h2 className="text-3xl font-semibold text-center mb-4 text-[#2A2A5A]">Login Instructions for Existing Stakeholders</h2>
+        <p className="text-center mb-4 text-[#2A2A5A]">
+          Follow these steps to log in:
+        </p>
+        <ol className="list-decimal list-inside max-w-xl mx-auto mb-4 text-[#2A2A5A]">
+          <li>Click the "Login" button on the top right.</li>
+          <li>Enter your credentials provided during onboarding.</li>
+          <li>Navigate to the Dashboard to view youth profiles, download CVs, and manage data.</li>
+        </ol>
+        <div className="text-center">
+          <Link to="/login" className="bg-[#187ABF] text-white py-2 px-4 rounded shadow hover:bg-[#9CCEDD] transition">
+            Login
+          </Link>
+        </div>
+      </section>
+
+      <footer className="text-center py-6 mt-12 bg-[#518035] text-white">
+        <p>© 2024 Community Database OUTSOURCING ORGANIC SOLUTIONS | All Rights Reserved</p>
+        <p>
+          <Link to="/privacy" className="hover:underline">Privacy Policy</Link> |{' '}
+          <Link to="/terms" className="hover:underline">Terms of Service</Link>
+        </p>
+      </footer>
     </div>
   );
 };

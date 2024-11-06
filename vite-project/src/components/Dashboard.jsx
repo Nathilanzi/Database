@@ -3,62 +3,74 @@ import React, { useEffect, useState } from 'react';
 import { getDocs, collection, getFirestore } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, onAuthStateChanged } from 'firebase/auth'; // Import Firebase Auth
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const Dashboard = () => {
   const [youthData, setYouthData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // Track errors
   const navigate = useNavigate();
   const db = getFirestore();
   const storage = getStorage();
   const auth = getAuth();
 
-  // Check if user is authenticated before fetching data
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
         console.warn('User is not logged in. Redirecting to login.');
-        navigate('/login'); // Redirect to login if user is not authenticated
+        navigate('/login'); // Redirect if not authenticated
       } else {
-        fetchData(); // Fetch data if user is logged in
+        fetchData(); // Fetch data if authenticated
       }
     });
 
-    // Cleanup subscription to avoid memory leaks
-    return () => unsubscribe();
+    return () => unsubscribe(); // Clean up subscription
   }, [auth, navigate]);
 
   const fetchData = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, 'users'));
+      const querySnapshot = await getDocs(collection(db, 'users', ));
 
       if (querySnapshot.empty) {
         console.warn('No documents found in the collection.');
+        setYouthData([]); // Set empty data to avoid undefined errors
+        setLoading(false);
+        return;
       }
 
+      // Use Promise.all to resolve file URLs asynchronously
       const dataPromises = querySnapshot.docs.map(async (doc) => {
         const profile = doc.data();
-        const cvUrl = profile.cvFileName
-          ? await getDownloadURL(ref(storage, `cvs/${profile.cvFileName}`))
-          : null;
+        
+        try {
+          // Attempt to get the CV download URL if available
+          const cvUrl = profile.cvLink
+            ? await getDownloadURL(ref(storage, `${profile.cvLink}`))
+            : null;
 
-        return { ...profile, cvUrl };
+          return { ...profile, cvUrl };
+        } catch (err) {
+          console.error(`Error fetching CV for ${profile.name}:`, err);
+          return { ...profile, cvUrl: null }; // Continue gracefully
+        }
       });
 
       const data = await Promise.all(dataPromises);
-      setYouthData(data);
-    } catch (error) {
-      console.error('Error fetching youth data:', error);
+      setYouthData(data); // Set the resolved data
+    } catch (err) {
+      console.error('Error fetching youth data:', err);
+      setError('Failed to load youth data. Please try again later.');
     } finally {
-      setLoading(false);
+      setLoading(false); // Ensure loading state is stopped
     }
   };
 
   const handleLogout = () => {
-    auth.signOut().then(() => navigate('/')); // Log out and redirect to home
+    auth.signOut().then(() => navigate('/')); // Log out and redirect
   };
 
   if (loading) return <p>Loading data...</p>;
+  if (error) return <p>{error}</p>; // Display error if any
 
   return (
     <div className="mt-20">

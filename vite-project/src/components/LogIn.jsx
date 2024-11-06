@@ -8,8 +8,14 @@ const auth = getAuth(app);
 const LogIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate(); // React Router hook for navigation
+
+    // Function to toggle password visibility
+    const togglePasswordVisibility = () => {
+      setPasswordVisible(!passwordVisible);
+    };
 
   const handleLogIn = async (e) => {
     e.preventDefault();
@@ -21,6 +27,7 @@ const LogIn = () => {
       console.error("Error logging in:", error);
     }
   };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-600 to-green-900">
@@ -64,23 +71,33 @@ const LogIn = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
-                         focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 text-sm"
-            />
-          </div>
+      <label
+        htmlFor="password"
+        className="block text-sm font-medium text-gray-600"
+      >
+        Password
+      </label>
+      <div className="relative">
+        <input
+          id="password"
+          type={passwordVisible ? 'text' : 'password'} // Toggle between 'text' and 'password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter your password"
+          required
+          className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
+                     focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 text-sm"
+        />
+        {/* Button to toggle visibility */}
+        <button
+          type="button"
+          onClick={togglePasswordVisibility}
+          className="absolute inset-y-0 right-0 px-3 text-gray-600 focus:outline-none"
+        >
+          {passwordVisible ? 'Hide' : 'Show'}
+        </button>
+      </div>
+    </div>
           <div className="flex justify-between items-center text-sm">
             <label className="flex items-center">
               <input type="checkbox" className="form-checkbox h-4 w-4 text-green-600" />
